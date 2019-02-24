@@ -4,7 +4,7 @@ from django.template import loader
 from django.urls import reverse
 
 
-from .models import Host
+from .models import Host, Nanny
 
 
 
@@ -46,7 +46,7 @@ def nannyProcess(request):
     "location" : ""+request.POST["street"]+" "+request.POST["street2"]+", "+request.POST["city"]+", "+request.POST["state"]
     }
 
-    id = Host.objects.create(**info);
+    id = Nanny.objects.create(**info);
     return HttpResponseRedirect("nanny/done")
 
 def done(request):

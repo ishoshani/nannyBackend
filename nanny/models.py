@@ -22,3 +22,8 @@ class Schedule(models.Model):
     nanny = models.ForeignKey(Nanny,on_delete = models.CASCADE)
     time = models.CharField(max_length=200)
     payment = models.IntegerField(default=0)
+
+class Note(models.Model):
+    host = models.ForeignKey(Host,on_delete=models.CASCADE)
+    nanny = models.ForeignKey(Nanny,on_delete=models.CASCADE)
+    text = models.CharField(max_length=2000)
