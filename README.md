@@ -17,9 +17,9 @@ current supported queries
 
 Get to list/ post to create
 
-/host -- all parents/hosts fields = ('id','username','phone','location','kids')
+/host -- all parents/hosts fields = ('id','username','phone','location','kids','password')
 
-/nannys -- all nannys fields = ('username','phone','location','price')
+/nannys -- all nannys fields = ('username','phone','location','price','password')
 
 /schedules -- all appointments fields = ('host','nanny','time','payment')
 
