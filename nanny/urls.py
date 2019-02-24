@@ -10,54 +10,54 @@ from rest_framework.response import Response
 from rest_framework import serializers, viewsets, routers
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
-class FullHostSerializer(serializers.HyperlinkedModelSerializer):
+class HostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Host
         fields = ('url','username','phone','location','kids','password')
-class SafeHostSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Host
-        fields = ('id','username','phone','location','kids')
+
 class NannySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Nanny
         fields = ('username','phone','location','price','password')
-class SafeNannySerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Nanny
-        fields = ('username','phone','location','price')
+
 class ScheduleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Schedule
-        fields = ('host','nanny','time','payment')
+        fields = ('host_id','nanny_id','time','payment')
 
 
 # ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+
+
 class HostViewSet(viewsets.ModelViewSet):
     queryset = Host.objects.all()
-    serializer_class = SafeHostSerializer
-    
+    serializer_class = HostSerializer
+
+
 class NannyViewSet(viewsets.ModelViewSet):
     queryset = Nanny.objects.all()
-    serializer_class=SafeNannySerializer
+    serializer_class=NannySerializer
+
+
+
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class=ScheduleSerializer
 
+class ScheduleSpecificSet(viewsets.ModelViewSet):
+    serializer_class =ScheduleSerializer
+    def get_queryset(self):
+        user = self.request.user
+        return Schedule.objects.filter(host = user)
+
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
 router.register(r'hosts',HostViewSet)
 router.register(r'nannys',NannyViewSet)
 router.register(r'schedules',ScheduleViewSet)
+router.register(r'specschedules',ScheduleSpecificSet,basename = "specific")
+
 
 
 # Wire up our API using automatic URL routing.
@@ -69,11 +69,7 @@ urlpatterns = [
     path('parentSignUp', views.parentSignUp, name='parentSignUp'),
     path('parentProcess', views.parentProcess, name = 'parentProcess'),
     path('nannySignUp', views.nannySignUp, name = 'nannySignUp'),
-<<<<<<< HEAD
-    path('parentProcess', views.parentDone, name = 'parentProcess'),
-    path('parentDone',views.parentDone, name = 'parentDone')
-=======
     path('nannyProcess', views.nannyProcess, name = 'nannyProcess'),
     path('nanny/done', views.done, name = 'done'),
->>>>>>> a07288829fb53a62917f2e8a572e993d1a22329a
+
 ]
