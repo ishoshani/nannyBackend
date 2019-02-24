@@ -110,6 +110,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# API Keys
+TOM_APIKEY=os.environ['TOM_APIKEY']
+
+TOM_ADMKEY=os.environ['TOM_ADMKEY']
+
+TOM_PROJID=os.environ['TOM_PROJID']
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
