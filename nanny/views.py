@@ -5,12 +5,15 @@ from django.urls import reverse
 
 
 from .models import Host
-
+import os
+import requests
+from requests.exceptions import HTTPError
 
 
 def index(request):
     template = loader.get_template('nanny/index.html')
     context = {}
+    print(get_tomtom_report_project())
     return HttpResponse(template.render(context, request))
 
 def parentSignUp(request):
@@ -52,3 +55,20 @@ def nannyProcess(request):
 def done(request):
     print(request)
     return render(request, 'nanny/done.html', {})
+
+def get_tomtom_report_project(latitude='37.787600', longitude='-122.396630'):
+    # default latitude and longtitude at hackathon site, 44 Tehama, San Francisco, CA.
+    url = 'https://api.tomtom.com/geofencing/1/report/projectId'
+    key = os.getenv('TOM_APIKEY')
+    projectId = os.getenv('TOM_PROJID')
+
+    try:
+        response = requests.get(f'https://api.tomtom.com/geofencing/1/report/{projectId}?key={key}&point={longitude},{latitude}')
+        # If the response was successful, no Exception will be raised
+        response.raise_for_status()
+    except HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}')
+    except Exception as err:
+        print(f'Other error occurred: {err}')
+    else:
+        return response.text
