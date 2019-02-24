@@ -1,9 +1,10 @@
 from django.urls import path
 
 from . import views
+import logging
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
-from .models import Host,Nanny,Schedule
+from .models import Host,Nanny,Schedule,Note
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -18,12 +19,16 @@ class HostSerializer(serializers.HyperlinkedModelSerializer):
 class NannySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Nanny
-        fields = ('username','phone','location','price','password')
+        fields = ('url','username','phone','location','price','password')
 
 class ScheduleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Schedule
         fields = ('host_id','nanny_id','time','payment')
+class NoteSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Note
+        fields = ('host_id', 'nanny_id', 'text')
 
 
 # ViewSets define the view behavior.
@@ -38,17 +43,32 @@ class NannyViewSet(viewsets.ModelViewSet):
     queryset = Nanny.objects.all()
     serializer_class=NannySerializer
 
-
-
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class=ScheduleSerializer
 
-class ScheduleSpecificSet(viewsets.ModelViewSet):
+class ScheduleHostSet(viewsets.ModelViewSet):
     serializer_class =ScheduleSerializer
     def get_queryset(self):
-        user = self.request.user
-        return Schedule.objects.filter(host = user)
+        data = self.request.query_params['host']
+        return Schedule.objects.filter(host = data)
+
+class ScheduleNannySet(viewsets.ModelViewSet):
+    serializer_class =ScheduleSerializer
+    def get_queryset(self):
+        data = self.request.query_params['nanny']
+        return Schedule.objects.filter(nanny = data)
+
+class NoteViewSet(viewsets.ModelViewSet):
+    serializer_class=NoteSerializer
+    def get_queryset(self):
+        data = self.request.query_params
+        if('host' in data):
+            host = data['host']
+            return Note.objects.filter(host = host)
+        if('nanny' in data):
+            nanny = data['nanny']
+            return Note.objects.filter(nanny= nanny)
 
 
 # Routers provide a way of automatically determining the URL conf.
@@ -56,8 +76,9 @@ router = routers.DefaultRouter()
 router.register(r'hosts',HostViewSet)
 router.register(r'nannys',NannyViewSet)
 router.register(r'schedules',ScheduleViewSet)
-router.register(r'specschedules',ScheduleSpecificSet,basename = "specific")
-
+router.register(r'hostschedules',ScheduleHostSet,basename = "hostSched")
+router.register(r'nannyschedules',ScheduleNannySet,basename = "nannySched")
+router.register(r'notes',NoteViewSet,basename = "notes")
 
 
 # Wire up our API using automatic URL routing.
