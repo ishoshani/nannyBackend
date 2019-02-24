@@ -43,7 +43,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class HostViewSet(viewsets.ModelViewSet):
     queryset = Host.objects.all()
     serializer_class = SafeHostSerializer
-    
+
 class NannyViewSet(viewsets.ModelViewSet):
     queryset = Nanny.objects.all()
     serializer_class=SafeNannySerializer
@@ -69,11 +69,6 @@ urlpatterns = [
     path('parentSignUp', views.parentSignUp, name='parentSignUp'),
     path('parentProcess', views.parentProcess, name = 'parentProcess'),
     path('nannySignUp', views.nannySignUp, name = 'nannySignUp'),
-<<<<<<< HEAD
-    path('parentProcess', views.parentDone, name = 'parentProcess'),
-    path('parentDone',views.parentDone, name = 'parentDone')
-=======
     path('nannyProcess', views.nannyProcess, name = 'nannyProcess'),
-    path('nanny/done', views.done, name = 'done'),
->>>>>>> a07288829fb53a62917f2e8a572e993d1a22329a
+    path('nanny/done', views.done, name = 'done')
 ]
