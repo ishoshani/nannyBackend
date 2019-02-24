@@ -21,8 +21,9 @@ Get to list/ post to create
 
 /nannys -- all nannys fields = ('username','phone','location','price','password')
 
-/schedules -- all appointments fields = ('host','nanny','time','payment')
+/schedules -- all appointments fields = ('host_id','nanny_id','time','payment')
 
+/notes -- All notes fields = ('host_id','nanny_id','text'
 make sure to add /at the end when posting. 
 
 /route/id/ to retreive an ID
