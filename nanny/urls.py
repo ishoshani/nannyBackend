@@ -67,7 +67,13 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('', views.index, name='index'),
     path('parentSignUp', views.parentSignUp, name='parentSignUp'),
+    path('parentProcess', views.parentProcess, name = 'parentProcess'),
     path('nannySignUp', views.nannySignUp, name = 'nannySignUp'),
+<<<<<<< HEAD
     path('parentProcess', views.parentDone, name = 'parentProcess'),
     path('parentDone',views.parentDone, name = 'parentDone')
+=======
+    path('nannyProcess', views.nannyProcess, name = 'nannyProcess'),
+    path('nanny/done', views.done, name = 'done'),
+>>>>>>> a07288829fb53a62917f2e8a572e993d1a22329a
 ]
