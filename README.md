@@ -23,6 +23,10 @@ Get to list/ post to create
 
 /schedules -- all appointments fields = ('host_id','nanny_id','time','payment')
 
+/hostschedules -- return all appointments of requested host
+
+/nannyschedules -- return all appointments of requests nanny
+
 /notes -- All notes fields = ('host_id','nanny_id','text')
 
 make sure to add /at the end when posting. 
