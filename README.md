@@ -23,7 +23,8 @@ Get to list/ post to create
 
 /schedules -- all appointments fields = ('host_id','nanny_id','time','payment')
 
-/notes -- All notes fields = ('host_id','nanny_id','text'
+/notes -- All notes fields = ('host_id','nanny_id','text')
+
 make sure to add /at the end when posting. 
 
 /route/id/ to retreive an ID
