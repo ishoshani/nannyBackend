@@ -1,1 +1,1 @@
-web: gunicorn nanny.wsgi
+web: gunicorn wsgi.py
