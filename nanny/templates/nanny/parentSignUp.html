@@ -2,7 +2,7 @@
 
 <!-- {% if errormessage %}<p><strong> {{ errormessage}} </strong></p>{% endif %} -->
 
-<form action= "{% url 'parentDone' %}" method="post">
+<form action= "{% url 'parentProcess' %}" method="post">
 {% csrf_token %}
 <p>User Name:</p><input type="text" name="user_name" value="">
 <p>Pass</p><input type="password" name="password" value="">
